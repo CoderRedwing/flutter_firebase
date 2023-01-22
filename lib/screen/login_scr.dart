@@ -7,10 +7,20 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
+       drawer: Drawer(
+         child: Column(
+           children: const [
+             CircleAvatar(
+               child: Text("hi i am ajitesh"),
+             )
+           ],
+         ),
+       ),
       appBar: AppBar(
         elevation: 0,
+
       ),
+
     );
   }
 }
