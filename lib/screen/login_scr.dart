@@ -1,3 +1,4 @@
+import 'package:firebase/screen/sign_up.dart';
 import 'package:firebase/widgets/round_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +12,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+
   final _formKey = GlobalKey<FormState>();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
@@ -42,6 +44,7 @@ class _LoginPageState extends State<LoginPage> {
                 child: Column(
                   children: [
                     TextFormField(
+                      keyboardType: TextInputType.emailAddress,
                       controller: emailController,
 
                       decoration: const InputDecoration(
@@ -61,13 +64,14 @@ class _LoginPageState extends State<LoginPage> {
                       height: 30,
                     ),
                     TextFormField(
+                      keyboardType: TextInputType.text,
                       controller: passwordController,
                        obscureText: true,
                       decoration: const InputDecoration(
                         hintText: 'Password',
 
 
-                        prefixIcon: Icon(Icons.password),
+                        prefixIcon: Icon(Icons.lock_open),
                       ),
                       validator: (value){
                         if(value!.isEmpty){
@@ -86,8 +90,24 @@ class _LoginPageState extends State<LoginPage> {
               if(_formKey.currentState!.validate()){
 
               }
-            },)
+            },),
+            const SizedBox(
+              height: 40,
 
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text("Don't have an account?"),
+                TextButton(onPressed: (){
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) =>SignupPage(),)
+                  );
+                },
+                    child: Text('Sign up')),
+
+              ]
+            )
           ],
         ),
       ),
