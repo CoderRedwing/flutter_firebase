@@ -1,4 +1,5 @@
 import 'package:firebase/screen/login_scr.dart';
+import 'package:firebase/utils/utils.dart';
 import 'package:firebase/widgets/round_button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -14,7 +15,7 @@ class SignupPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<SignupPage> {
-
+  bool loading = false;
   final _formKey = GlobalKey<FormState>();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
@@ -25,6 +26,23 @@ class _LoginPageState extends State<SignupPage> {
     super.dispose();
     emailController.dispose();
     passwordController.dispose();
+  }
+  void signUp(){
+    setState(() {
+      loading = true;
+    });
+    auth.createUserWithEmailAndPassword(
+        email: emailController.text.toString(),
+        password: passwordController.text.toString()).then((value){
+      setState(() {
+        loading = false;
+      });
+    }).onError((error, stackTrace){
+      Utils().toastMessage(error.toString());
+      setState(() {
+        loading = false;
+      });
+    });
   }
   @override
 
@@ -38,7 +56,8 @@ class _LoginPageState extends State<SignupPage> {
         appBar: AppBar(
 
 
-          title: Text("Signup"),
+          title: const Text("Signup"),
+
         ),
         body: Padding(
 
@@ -94,11 +113,9 @@ class _LoginPageState extends State<SignupPage> {
                 height: 40,
 
               ),
-              RoundButton(title: 'Signup', onTap: () {
+              RoundButton(title: 'Signup',loading: loading, onTap: () {
                 if(_formKey.currentState!.validate()){
-                   auth.createUserWithEmailAndPassword(
-                      email: emailController.text.toString(),
-                      password: passwordController.text.toString(),);
+                  signUp();
                 }
               },),
               const SizedBox(
@@ -108,13 +125,13 @@ class _LoginPageState extends State<SignupPage> {
               Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text("Already have an account?"),
+                    const Text("Already have an account?"),
                     TextButton(onPressed: (){
                       Navigator.push(context,
-                          MaterialPageRoute(builder: (context) =>LoginPage(),)
+                          MaterialPageRoute(builder: (context) =>const LoginPage(),)
                       );
                     },
-                        child: Text('Login')),
+                        child: const Text('Login')),
                   ]
               )
             ],

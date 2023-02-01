@@ -1,5 +1,9 @@
+import 'package:firebase/screen/login_phone.dart';
+import 'package:firebase/screen/posts/post_scr.dart';
 import 'package:firebase/screen/sign_up.dart';
+import 'package:firebase/utils/utils.dart';
 import 'package:firebase/widgets/round_button.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -12,16 +16,39 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-
+   bool loading = false;
   final _formKey = GlobalKey<FormState>();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  final _auth = FirebaseAuth.instance;
   @override
   void dispose() {
     // TODO: implement dispose
     super.dispose();
     emailController.dispose();
     passwordController.dispose();
+  }
+  void login(){
+    setState(() {
+      loading =true;
+    });
+    _auth.signInWithEmailAndPassword(email: emailController.text,
+        password: passwordController.text.toString()).then((value){
+
+          Utils().toastMessage(value.user!.email.toString());
+           Navigator.push(context, MaterialPageRoute(builder: (context)=>const PostScreen(),));
+          setState(() {
+            loading =true;
+          });
+    }).onError((error, stackTrace){
+
+      debugPrint(error.toString());
+     Utils().toastMessage(error.toString());
+      setState(() {
+        loading =true;
+      });
+    });
+
   }
   @override
 
@@ -86,9 +113,9 @@ class _LoginPageState extends State<LoginPage> {
               height: 40,
 
             ),
-            RoundButton(title: 'Login', onTap: () {
+            RoundButton(title: 'Login',loading: loading, onTap: () {
               if(_formKey.currentState!.validate()){
-
+                 login();
               }
             },),
             const SizedBox(
@@ -98,15 +125,36 @@ class _LoginPageState extends State<LoginPage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text("Don't have an account?"),
+                const Text("Don't have an account?"),
                 TextButton(onPressed: (){
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) =>SignupPage(),)
+                      MaterialPageRoute(builder: (context) =>const SignupPage(),)
                   );
                 },
-                    child: Text('Sign up')),
+                    child: const Text('Sign up')),
+                const SizedBox(height: 35,),
+
 
               ]
+            ),
+            InkWell(
+              onTap: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>const LoginWithPhone()));
+              },
+              child: Container(
+                decoration: BoxDecoration(
+
+                  borderRadius: BorderRadius.circular(40),
+
+                  border: Border.all(
+                    color: Colors.black,
+                  )
+                ),
+                height: 50,
+                child: const Center(
+                  child: Text('Login with phone'),
+                ),
+              ),
             )
           ],
         ),
