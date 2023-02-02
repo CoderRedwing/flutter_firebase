@@ -29,7 +29,9 @@ class _VerifyScreenState extends State<VerifyScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: Drawer(),
       appBar: AppBar(
+
         title: const Text('Verify'),
       ),
       body: Padding(
