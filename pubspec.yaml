@@ -43,6 +43,8 @@ dependencies:
   fluttertoast: ^8.1.2
   email_validator: ^2.1.17
   firebase_database: ^10.0.9
+  image_picker: ^0.8.6+1
+  firebase_storage: ^11.0.10
 
 dev_dependencies:
   flutter_test:

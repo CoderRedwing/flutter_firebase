@@ -48,9 +48,15 @@ class _AddFireStoreDataState extends State<AddFireStoreData> {
            'title':postController.text.toString(),
              'id':id
            }).then((value) {
-
+             Utils().toastMessage('post added');
+             setState(() {
+               loading=false;
+             });
            }).onError((error, stackTrace) {
             Utils().toastMessage(error.toString());
+            setState(() {
+              loading=false;
+            });
            });
 
               })

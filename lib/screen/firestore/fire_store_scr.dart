@@ -22,6 +22,7 @@ class _FireStoreScreenState extends State<FireStoreScreen> {
 
   final editController =TextEditingController();
   final fireStore = FirebaseFirestore.instance.collection('Users').snapshots();
+  CollectionReference ref =FirebaseFirestore.instance.collection('Users');
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,7 +59,18 @@ class _FireStoreScreenState extends State<FireStoreScreen> {
                       itemCount: snapshot.data!.docs.length,
                       itemBuilder: (context,index){
                         return ListTile(
+                          onTap: (){
+                            ref.doc(snapshot.data!.docs[index]['id'].toString()).update({
+                            'title':'ajitesh hello'
+                            }).then((value) {
+                              Utils().toastMessage('Updated');
+                            }).onError((error, stackTrace) {
+                             Utils().toastMessage(error.toString());
+                            });
+                            ref..doc(snapshot.data!.docs[index]['id'].toString()).delete();
+                          },
                           title: Text(snapshot.data!.docs[index]['title'].toString()),
+                          subtitle: Text(snapshot.data!.docs[index]['id'].toString()),
                         );
                       })
               );

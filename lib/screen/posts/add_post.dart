@@ -51,9 +51,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
                  }).then((value) {
 
                    Utils().toastMessage('Post added');
-                   setState(() {
-                     loading=false;
-                   });
+
                  }).onError((error, stackTrace){
 
                    Utils().toastMessage(error.toString());
