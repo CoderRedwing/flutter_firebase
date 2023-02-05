@@ -23,6 +23,7 @@ class _FireStoreScreenState extends State<FireStoreScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: Drawer(),
       appBar: AppBar(
 
         automaticallyImplyLeading: false,
