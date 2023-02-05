@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase/screen/firestore/add_firestore_data.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:firebase/screen/login_scr.dart';
@@ -20,6 +21,7 @@ class _FireStoreScreenState extends State<FireStoreScreen> {
   final auth = FirebaseAuth.instance;
 
   final editController =TextEditingController();
+  final fireStore = FirebaseFirestore.instance.collection('Users').snapshots();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,16 +45,24 @@ class _FireStoreScreenState extends State<FireStoreScreen> {
       body: Column(
         children: [
           const SizedBox(height: 20,),
-
-          Expanded(
-            child: ListView.builder(
-              itemCount: 5,
-                itemBuilder: (context,index){
-                  return ListTile(
-                    title: Text('ajitesh'),
-                  );
-                })
-          ),
+          StreamBuilder<QuerySnapshot>(
+            stream: fireStore,
+              builder: (BuildContext context,AsyncSnapshot<QuerySnapshot> snapshot){
+              if(snapshot.connectionState==ConnectionState.waiting){
+               return CircularProgressIndicator();
+              }
+              if(snapshot.hasError)
+                return Text('Some error');
+              return Expanded(
+                  child: ListView.builder(
+                      itemCount: snapshot.data!.docs.length,
+                      itemBuilder: (context,index){
+                        return ListTile(
+                          title: Text(snapshot.data!.docs[index]['title'].toString()),
+                        );
+                      })
+              );
+              })
 
         ],
       ),

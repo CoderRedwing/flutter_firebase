@@ -1,3 +1,4 @@
+import 'package:firebase/screen/firestore/fire_store_scr.dart';
 import 'package:firebase/screen/login_phone.dart';
 import 'package:firebase/screen/posts/post_scr.dart';
 import 'package:firebase/screen/sign_up.dart';
@@ -36,7 +37,7 @@ class _LoginPageState extends State<LoginPage> {
         password: passwordController.text.toString()).then((value){
 
           Utils().toastMessage(value.user!.email.toString());
-           Navigator.push(context, MaterialPageRoute(builder: (context)=>const PostScreen(),));
+           Navigator.push(context, MaterialPageRoute(builder: (context)=>const FireStoreScreen()));
           setState(() {
             loading =true;
           });
