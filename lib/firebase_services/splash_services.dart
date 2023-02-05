@@ -13,7 +13,7 @@ class SplashServices{
     final auth = FirebaseAuth.instance;
     final user = auth.currentUser;
     if(user !=null){
-      Timer(const Duration(seconds: 3),()=>Navigator.push(context, MaterialPageRoute(builder: (context) =>const UploadImages())));
+      Timer(const Duration(seconds: 3),()=>Navigator.push(context, MaterialPageRoute(builder: (context) =>const PostScreen())));
     }
     else{
       Timer(const Duration(seconds: 3),()=>Navigator.push(context, MaterialPageRoute(builder: (context) =>const LoginPage())));

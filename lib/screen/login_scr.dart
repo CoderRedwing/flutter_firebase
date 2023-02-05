@@ -8,6 +8,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import 'forgot_password.dart';
+
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
@@ -119,6 +121,16 @@ class _LoginPageState extends State<LoginPage> {
                  login();
               }
             },),
+            Align(
+              alignment: Alignment.bottomRight,
+              child: TextButton(onPressed: (){
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) =>const ForgotPassword(),)
+                );
+              },
+                  child: const Text('Forgot password?')),
+            ),
+            const SizedBox(height: 35,),
             const SizedBox(
               height: 40,
 
@@ -129,7 +141,7 @@ class _LoginPageState extends State<LoginPage> {
                 const Text("Don't have an account?"),
                 TextButton(onPressed: (){
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) =>const SignupPage(),)
+                      MaterialPageRoute(builder: (context) =>const SignupPage(),),
                   );
                 },
                     child: const Text('Sign up')),
